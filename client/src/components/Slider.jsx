@@ -133,7 +133,7 @@ const Slider = () => {
                     <Form.Control as="textarea" rows={3} placeholder="Enter Description" name="description" value={formData.description} onChange={handleChange} />
                   </Form.Group>
 
-                  <Button variant="primary" className="w-100" onClick={handleSubmit}>
+                  <Button variant="outline-light" className="w-100" onClick={handleSubmit}>
                     Add Expense
                   </Button>
 

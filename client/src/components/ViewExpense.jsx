@@ -5,6 +5,7 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import { IoMdSearch } from "react-icons/io";
+import axios from 'axios';
 
 
 const ViewExpense = () => {
@@ -27,6 +28,14 @@ const ViewExpense = () => {
 
         }
 
+    }
+    const deleteExpense = async(id) => {
+        try {
+            await axios.delete(`http://127.0.0.1:8000/api/expenses/${id}/`)
+            fetchExpenses();
+        } catch (err) {
+            console.error("Delete error:", err);
+        }
     }
 
 
@@ -71,7 +80,7 @@ const ViewExpense = () => {
                                 <td>{exp.description}</td>
                                 <td>
                                     <Button variant="secondary" className='border-white me-2'>Edit</Button>
-                                    <Button variant="danger" className='border-white' >Delete</Button>
+                                    <Button variant="danger" className='border-white' onClick={() => deleteExpense(exp.id)}>Delete</Button>
                                 </td>
                             </tr>
                         ))}
