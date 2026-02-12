@@ -75,7 +75,7 @@ const Slider = () => {
       <div className='d-flex'>
 
         <div className='w-25 m-3 rounded-3' style={{ height: '90vh' }}>
-          <h3 className='text-center m-3 text-white'>ExpenseTacker</h3>
+          <h3 className='text-center m-3 text-white'>ExpenseTracker</h3>
           <hr className='text-white m-4' />
           <Link to="/view-expense" >
             <Button variant="primary" className='w-75 ms-5 mb-4 rounded-3 text-white border-white' style={{ backgroundColor: 'transparent' }}>View Expense</Button>
