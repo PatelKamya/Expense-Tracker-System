@@ -26,6 +26,19 @@ class ExpenseView(APIView):
         
         expense.delete()
         return Response({"message": "deleted"}, status=204)
+    
+    def put(self, request, pk):
+        try:
+            expense = Expense.objects.get(pk=pk)
+        except Expense.DoesNotExist:
+            return Response({"error": "Not found"}, status=404)
+
+        serializer = ExpenseSerializer(expense, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    
 
 
 

@@ -11,13 +11,27 @@ import axios from 'axios';
 const ViewExpense = () => {
     const [expense, setExpense] = useState([])
     const [search, setSearch] = useState('')
+    const [searchCategory, setSearchCategory] = useState([])
+
   
 
 
 
     useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/expenses/').then((res) => {
+            setSearchCategory(res.data);
+        }).catch((err) => console.log(err))
         fetchExpenses();
     }, [])
+    
+    const filteredExpenses = expense.filter((exp) => {
+        if (!search) return true;
+        const q = search.toLowerCase();
+        return (exp.category && exp.category.toLowerCase().includes(q)) ||
+               (exp.title && exp.title.toLowerCase().includes(q)) ||
+               (exp.description && exp.description.toLowerCase().includes(q));
+    })
+
 
     const fetchExpenses = async () => {
         try {
@@ -37,15 +51,15 @@ const ViewExpense = () => {
             console.error("Delete error:", err);
         }
     }
-
+   
 
     return (
         <div className='main-container'>
             <div className='d-flex justify-content-between'>
                 <h3 className='mt-3 ms-4 text-light'>View Expense</h3>
                 
-                    <input type="text" placeholder="Search Expenses" className='mt-3 rounded-3 p-2 h-25 w-25' />
-                
+                    <input type="text" placeholder="Search Expenses" value={search} onChange={(e) => setSearch(e.target.value)} className='mt-3 rounded-3 p-2 h-25 w-25' />
+                    {/* <Button className='' onClick={handleSearch}>search</Button> */}
                 <div>
                         <input className='rounded-3 p-2 me-3' type='month'/>
                     <Link to='/' className='text-decoration-none'>
@@ -70,7 +84,7 @@ const ViewExpense = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {expense.map((exp) => (
+                        {filteredExpenses.map((exp) => (
                             <tr key={exp.id}>
                                 <td>{exp.id}</td>
                                 <td>{exp.title}</td>
